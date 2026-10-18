@@ -2,9 +2,9 @@ import random
 
 input_list = [] #The list which contains the intial inputs
 
-for i in range(10): #Loops to get the initial inputs and add it to the input_list[]
+for i in range(5): #Loops to get the initial inputs and add it to the input_list[]
     add = []
-    for j in range(1,6):
+    for j in range(5):
         add.append(random.randint(0, 255))
     input_list.append(add)
 
