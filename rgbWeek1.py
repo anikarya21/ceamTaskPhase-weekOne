@@ -213,22 +213,69 @@ elif (user_geometry == "rotate"):
 output_list_edge_contrast = []
 total = 0
 
+def contrastEdgeDetection(input_list_contrast, contrast_value): #CONTRAST FUNCTION (5X5) FOR EDGE DETECTION
+    output_list_pixel = []
+    for i in range(5):
+        row = []
+        for j in range(5):
+            if (contrast_value * (input_list_contrast[i][j] - 128) + 128 > 0):
+                row.append(min(contrast_value * (input_list_contrast[i][j] - 128) + 128, 255))
+            else:
+                row.append(0)
+        output_list_pixel.append(row)
+    return output_list_pixel
+
+def thresholdingEdgeDetection(input_list_thresholding, threshold_value, low = 255, high = 0): #THRESHOLDING FUNCTION
+    output_list_pixel = []
+    for i in range(5):
+        row = []
+        for j in range(5):
+            if (input_list_thresholding[i][j] > threshold_value):
+                row.append(low)
+            else:
+                row.append(high)
+        output_list_pixel.append(row)
+    return output_list_pixel
+
+def displayEdgeDetection(input_list_display,row=5,column=5): #DISPLAY MATRIX FUNCTION
+    output_list_pixel = []
+    for i in range(row):
+        for j in range(column):
+            print(input_list_display[i][j], end = " ")
+        print()
+    print()
+    print()
+    return 0
+
 def edgeDetection(input_list_edgeDetection):
+
+    user_edgeDetection = [] #MAKE IT A 5X5 MATRIX
+
+    for i in range(5):
+        row = []
+        for j in range(5):
+            col = 0
+            for k in range(3):
+                col += input_list_edgeDetection[i][j][k]
+            row.append(col/3)
+        user_edgeDetection.append(row)
+
     user_contrast_edgeDetection = int(input("Enter the contrast value: "))
+
     print()
     print()
-    function_contrast_edgeDetection = contrast(input_list_edgeDetection,user_contrast_edgeDetection)
+
+    function_contrast_edgeDetection = contrastEdgeDetection(user_edgeDetection,user_contrast_edgeDetection)
 
     total_mean = 0
 
     for i in range(5):
         for j in range(5):
-            for k in range(3):
-                total_mean += function_contrast_edgeDetection[i][j][k]
+                total_mean += function_contrast_edgeDetection[i][j]
 
-    total_mean = (total_mean / 75) * 1.35  #Anything above 100% total_mean and 35% more of total_mean
+    total_mean = (total_mean / 25) * 1.35  #Anything above 100% total_mean and 35% more of total_mean
 
-    function_contrast_thresholding = thresholding(function_contrast_edgeDetection, total_mean, "*", " ")
+    function_contrast_thresholding = thresholdingEdgeDetection(function_contrast_edgeDetection, total_mean, "*", " ")
 
     for i in range(5):
         row = []
@@ -249,4 +296,4 @@ print()
 print()
 
 if (user_edge == "Y"):
-    display(edgeDetection(input_list))
+    displayEdgeDetection(edgeDetection(input_list))
