@@ -20,7 +20,7 @@ def display(input_list_display,row=5,column=5): #DISPLAY MATRIX FUNCTION
         else: print("BLUE")
 
         print()
-        
+
         for j in range(row):
             for k in range(column):
                 print(input_list_display[j][k][i], end = " ")
@@ -226,7 +226,7 @@ def edgeDetection(input_list_edgeDetection):
             for k in range(3):
                 total_mean += function_contrast_edgeDetection[i][j][k]
 
-    total_mean = (total_mean / 25) * 1.35  #Anything above 100% total_mean and 35% more of total_mean
+    total_mean = (total_mean / 75) * 1.35  #Anything above 100% total_mean and 35% more of total_mean
 
     function_contrast_thresholding = thresholding(function_contrast_edgeDetection, total_mean, "*", " ")
 
